@@ -4,7 +4,7 @@ import { useState } from 'react';
 const ititialState = {
   title: '',
   amount: '',
-  date: '',
+  date: new Date(),
 };
 
 export default function ExpenseForm(props) {
@@ -24,7 +24,7 @@ export default function ExpenseForm(props) {
         break;
       case 'date':
         setExpense((prevState) => {
-          return { ...prevState, date: value };
+          return { ...prevState, date: new Date(value) };
         });
         break;
       default:
@@ -34,8 +34,11 @@ export default function ExpenseForm(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    props.onSaveExpenseData(newExpense);
-    // console.log(newExpense);
+    if (newExpense.title === '' || newExpense.amount === '') return;
+    props.onAddExpense({
+      id: Math.random().toString(),
+      ...newExpense,
+    });
     setExpense({ ...ititialState });
   }
 
@@ -64,7 +67,7 @@ export default function ExpenseForm(props) {
           <label>Date</label>
           <input
             type='date'
-            value={newExpense.date}
+            value={newExpense.date.toISOString().split('T')[0]}
             min='2023-09-19'
             max='2030-09-19'
             onChange={(e) => handleInput('date', e.target.value)}
