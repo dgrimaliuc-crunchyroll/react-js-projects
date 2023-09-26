@@ -1,5 +1,7 @@
 import './ExpenseForm.css';
 import { useState } from 'react';
+import ExpenseInputs from '../expenseInputs/ExpenseInputs';
+import ExpenseControls from '../expenseControls/ExpenseControls';
 
 const ititialState = {
   title: '',
@@ -19,7 +21,7 @@ export default function ExpenseForm(props) {
         break;
       case 'amount':
         setExpense((prevState) => {
-          return { ...prevState, amount: value };
+          return { ...prevState, amount: +value };
         });
         break;
       case 'date':
@@ -32,9 +34,12 @@ export default function ExpenseForm(props) {
     }
   }
 
+  const [isFormExpanded, setIsForExpanded] = useState(false);
+
   function handleSubmit(e) {
     e.preventDefault();
-    if (newExpense.title === '' || newExpense.amount === '') return;
+    if (newExpense.title === '' || newExpense.amount === 0) return;
+    console.log('isFormExpanded: ' + isFormExpanded);
     props.onAddExpense({
       id: Math.random().toString(),
       ...newExpense,
@@ -44,39 +49,19 @@ export default function ExpenseForm(props) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className='new-expense__controls'>
-        <div className='new-expense__control'>
-          <label>Title</label>
-          <input
-            type='text'
-            value={newExpense.title}
-            onChange={(e) => handleInput('title', e.target.value)}
-          />
-        </div>
-        <div className='new-expense__control'>
-          <label>Amount</label>
-          <input
-            type='number'
-            value={newExpense.amount}
-            min='0.01'
-            step='0.01'
-            onChange={(e) => handleInput('amount', e.target.value)}
-          />
-        </div>
-        <div className='new-expense__control'>
-          <label>Date</label>
-          <input
-            type='date'
-            value={newExpense.date.toISOString().split('T')[0]}
-            min='2023-09-19'
-            max='2030-09-19'
-            onChange={(e) => handleInput('date', e.target.value)}
-          />
-        </div>
-      </div>
-      <div className='new-expense__actions'>
-        <button type='submit'>Add Expense</button>
-      </div>
+      {!isFormExpanded && (
+        <button onClick={() => setIsForExpanded(true)}>Add New Expense</button>
+      )}
+      <ExpenseInputs
+        handleInput={handleInput}
+        ititialState={newExpense}
+        isFormExpanded={isFormExpanded}
+      />
+      <ExpenseControls
+        isFormExpanded={isFormExpanded}
+        newExpense={newExpense}
+        setIsForExpanded={setIsForExpanded}
+      />
     </form>
   );
 }

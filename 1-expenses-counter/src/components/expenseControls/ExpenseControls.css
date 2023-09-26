@@ -1,0 +1,15 @@
+.actions-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.new-expense button {
+  margin-right: 0rem;
+}
+
+.hidden {
+  display: none;
+}
