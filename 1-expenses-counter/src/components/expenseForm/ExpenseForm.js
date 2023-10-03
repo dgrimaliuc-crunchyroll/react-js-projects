@@ -39,14 +39,13 @@ export default function ExpenseForm(props) {
   function handleSubmit(e) {
     e.preventDefault();
     if (newExpense.title === '' || newExpense.amount === 0) return;
-    console.log('isFormExpanded: ' + isFormExpanded);
     props.onAddExpense({
       id: Math.random().toString(),
       ...newExpense,
     });
     setExpense({ ...ititialState });
   }
-
+  console.log('ExpenseForm.js');
   return (
     <form onSubmit={handleSubmit}>
       {!isFormExpanded && (
