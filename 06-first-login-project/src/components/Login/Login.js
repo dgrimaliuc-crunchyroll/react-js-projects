@@ -7,8 +7,8 @@ import Button from '../UI/Button/Button';
 const initialFormState = {
   password: '',
   email: '',
-  isEmailValid: undefined,
-  isPasswordValid: undefined,
+  isEmailValid: false,
+  isPasswordValid: false,
 };
 
 const formReducer = (state, action) => {
