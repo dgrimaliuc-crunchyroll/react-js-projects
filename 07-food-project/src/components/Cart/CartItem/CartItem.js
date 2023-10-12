@@ -3,29 +3,17 @@ import { useContext, useState } from 'react';
 import CartContext from '../../../store/cartContext';
 
 export default function CartItem({ item }) {
-  const { cartItems, setCartItems, setTotal } = useContext(CartContext);
-  const [amount, setAmount] = useState(cartItems[item.id].amount);
+  const { cart, addItem, removeItem } = useContext(CartContext);
+  const [amount, setAmount] = useState(cart.cartItems[item.id].amount);
 
   const increaseAmount = () => {
-    setCartItems((prev) => {
-      prev[item.id].amount = amount + 1;
-      return prev;
-    });
+    addItem(item, 1);
     setAmount((prev) => prev + 1);
-    setTotal((prev) => {
-      return { amount: prev.amount + 1, price: prev.price + item.price };
-    });
   };
 
   const decreaseAmount = () => {
-    setCartItems((prev) => {
-      prev[item.id].amount = amount - 1;
-      return prev;
-    });
+    removeItem(item);
     setAmount((prev) => prev - 1);
-    setTotal((prev) => {
-      return { amount: prev.amount - 1, price: prev.price - item.price };
-    });
   };
 
   if (!amount) {
@@ -48,17 +36,3 @@ export default function CartItem({ item }) {
     </div>
   );
 }
-
-/**
-   <div className={classes['cart-item']}>
-      <h2>{item.name}</h2>
-      <div className={classes.summary}>
-        <span className={classes.price}>${item.price}</span>
-        <span className={classes.amount}>x {item.amount}</span>
-      </div>
-      <div className={classes.actions}>
-        <button>-</button>
-        <button>+</button>
-      </div>
-    </div>
- */

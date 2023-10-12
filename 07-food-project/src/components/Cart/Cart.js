@@ -4,34 +4,29 @@ import { useContext } from 'react';
 import CartContext from '../../store/cartContext';
 
 export default function Cart() {
-  const { cartItems, total, closeCart, setCartItems, setTotal } =
-    useContext(CartContext);
+  const { cart, closeCart, setInitialState } = useContext(CartContext);
 
-  if (!total.amount) {
+  if (!cart.total.amount) {
     closeCart();
   }
-
-  function setDefaultState() {
-    setCartItems({});
-    setTotal({ amount: 0, price: 0 });
-  }
+  console.log(cart);
   return (
     <div>
       <div className={classes['cart-items']}>
-        {Object.values(cartItems).map((item) => (
+        {Object.values(cart.cartItems).map((item) => (
           <CartItem key={item.id} item={item} />
         ))}
       </div>
       <div>
         <div className={classes.total}>
           <span>Total</span>
-          <span>${total.price.toFixed(2)}</span>
+          <span>${cart.total.price.toFixed(2)}</span>
         </div>
         <div className={classes.actions}>
           <button className={classes['button--alt']} onClick={closeCart}>
             Close
           </button>
-          <button className={classes.button} onClick={setDefaultState}>
+          <button className={classes.button} onClick={setInitialState}>
             Order
           </button>
         </div>

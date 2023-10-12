@@ -6,7 +6,7 @@ import Cart from '../Cart/Cart';
 import Card from '../Card/Card';
 
 export default function Modal() {
-  const { cartItems, isCartOpen, closeCart } = useContext(CartContext);
+  const { isCartOpen, closeCart } = useContext(CartContext);
   if (!isCartOpen) return null;
   return (
     <Fragment>
@@ -16,7 +16,7 @@ export default function Modal() {
       )}
       {createPortal(
         <Card className={classes.modal}>
-          <Cart items={cartItems} />
+          <Cart />
         </Card>,
         document.getElementById('modal')
       )}

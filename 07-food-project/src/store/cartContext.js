@@ -1,44 +1,72 @@
 import { createContext, useState, useReducer } from 'react';
 
+const initialCartState = {
+  cartItems: {},
+  total: { amount: 0, price: 0 },
+};
+
 const CartContext = createContext({
-  cartItems: [],
-  setCartItems: () => {},
+  cart: initialCartState,
+  addItem: () => {},
+  removeItem: () => {},
+  setInitialState: () => {},
   isCartOpen: false,
   openCart: () => {},
   closeCart: () => {},
-  total: {
-    amount: 0,
-    price: 0,
-  },
-  setTotal: () => {},
 });
 export default CartContext;
-
-const initialState = {
-  cartItems: [],
-  total: { amount: 0, price: 0 },
-};
 
 function cartReducer(state, action) {
   switch (action.type || '') {
     case 'ADD_ITEM':
-      return { ...state };
+      const { meal, amount } = action.value || {};
+      const cartItems = state.cartItems;
+      const currentAmount = cartItems[meal.id] ? cartItems[meal.id].amount : 0;
+      cartItems[meal.id] = { ...meal, amount: currentAmount + amount };
+
+      return {
+        ...state,
+        total: {
+          price: state.total.price + meal.price * amount,
+          amount: state.total.amount + amount,
+        },
+      };
     case 'REMOVE_ITEM':
-      return { ...state };
+      const mealToExtract = action.value;
+      const currentCartItems = state.cartItems;
+      const mealAmount = currentCartItems[mealToExtract.id].amount;
+      if (mealAmount === 1) {
+        delete currentCartItems[mealToExtract.id];
+      } else {
+        currentCartItems[mealToExtract.id].amount = mealAmount - 1;
+      }
+
+      return {
+        ...state,
+        total: {
+          price: state.total.price - mealToExtract.price,
+          amount: state.total.amount - 1,
+        },
+      };
     default:
-      return initialState;
+      return initialCartState;
   }
 }
 
-function addItem(meal) {
-  cartReducer({ type: 'ADD_ITEM', value: meal });
-}
-
 export function CartContextProvider({ children }) {
-  const [cart, dispatch] = useReducer(cartReducer, {});
+  const [cart, dispatch] = useReducer(cartReducer, initialCartState);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
-  const [total, setTotal] = useState({ amount: 0, price: 0 });
+
+  function addItem(meal, amount) {
+    dispatch({ type: 'ADD_ITEM', value: { meal, amount } });
+  }
+
+  function removeItem(meal) {
+    dispatch({ type: 'REMOVE_ITEM', value: meal });
+  }
+  function setInitialState(meal) {
+    dispatch();
+  }
 
   function openCart() {
     setIsCartOpen(true);
@@ -50,13 +78,13 @@ export function CartContextProvider({ children }) {
   return (
     <CartContext.Provider
       value={{
-        cartItems,
-        setCartItems,
+        cart,
+        addItem,
+        removeItem,
+        setInitialState,
         isCartOpen,
         openCart,
         closeCart,
-        total,
-        setTotal,
       }}
     >
       {children}

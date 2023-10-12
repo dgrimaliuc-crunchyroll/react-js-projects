@@ -4,20 +4,20 @@ import { useContext } from 'react';
 import CartContext from '../../../store/cartContext';
 
 export default function HeaderCartButton() {
-  const { total, openCart } = useContext(CartContext);
+  const { cart, openCart } = useContext(CartContext);
   return (
     <div className={classes.bump}>
       <button
         className={classes.button}
         onClick={() => {
-          if (total.amount) {
+          if (cart.total.amount) {
             openCart();
           }
         }}
       >
         <CartIcon />
         Your Cart
-        <div className={classes.badge}>{total.amount}</div>
+        <div className={classes.badge}>{cart.total.amount}</div>
       </button>
     </div>
   );
