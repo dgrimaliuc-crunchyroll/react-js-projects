@@ -6,16 +6,16 @@ import CartContext from '../../store/cartContext';
 export default function Cart() {
   const { cart, closeCart, setInitialState } = useContext(CartContext);
 
-  if (!cart.total.amount) {
+  function makeOrder() {
+    setInitialState();
     closeCart();
   }
-
   return (
     <div>
       <div className={classes['cart-items']}>
-        {Object.values(cart.cartItems).map((item) => (
-          <CartItem key={item.id} item={item} />
-        ))}
+        {Object.values(cart.cartItems).map((item) => {
+          return <CartItem key={item.id} item={item} />;
+        })}
       </div>
       <div>
         <div className={classes.total}>
@@ -26,7 +26,7 @@ export default function Cart() {
           <button className={classes['button--alt']} onClick={closeCart}>
             Close
           </button>
-          <button className={classes.button} onClick={setInitialState}>
+          <button className={classes.button} onClick={makeOrder}>
             Order
           </button>
         </div>

@@ -10,9 +10,7 @@ export default function HeaderCartButton() {
       <button
         className={classes.button}
         onClick={() => {
-          if (cart.total.amount) {
-            openCart();
-          }
+          openCart();
         }}
       >
         <CartIcon />

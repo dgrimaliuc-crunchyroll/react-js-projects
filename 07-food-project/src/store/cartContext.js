@@ -6,7 +6,7 @@ const initialCartState = {
 };
 
 const CartContext = createContext({
-  cart: initialCartState,
+  cart: { ...initialCartState },
   addItem: () => {},
   removeItem: () => {},
   setInitialState: () => {},
@@ -17,7 +17,7 @@ const CartContext = createContext({
 export default CartContext;
 
 function cartReducer(state, action) {
-  switch (action.type || '') {
+  switch (action.type) {
     case 'ADD_ITEM':
       const { meal, amount } = action.value || {};
       const cartItems = state.cartItems;
@@ -48,13 +48,23 @@ function cartReducer(state, action) {
           amount: state.total.amount - 1,
         },
       };
+    case 'SET_INITIAL_STATE':
+      return {
+        cartItems: {},
+        total: { amount: 0, price: 0 },
+      };
     default:
-      return initialCartState;
+      return JSON.parse(
+        JSON.stringify({
+          cartItems: {},
+          total: { amount: 0, price: 0 },
+        })
+      );
   }
 }
 
 export function CartContextProvider({ children }) {
-  const [cart, dispatch] = useReducer(cartReducer, initialCartState);
+  const [cart, dispatch] = useReducer(cartReducer, { ...initialCartState });
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   function addItem(meal, amount) {
@@ -64,8 +74,8 @@ export function CartContextProvider({ children }) {
   function removeItem(meal) {
     dispatch({ type: 'REMOVE_ITEM', value: meal });
   }
-  function setInitialState(meal) {
-    dispatch();
+  function setInitialState() {
+    dispatch({ type: 'SET_INITIAL_STATE' });
   }
 
   function openCart() {
