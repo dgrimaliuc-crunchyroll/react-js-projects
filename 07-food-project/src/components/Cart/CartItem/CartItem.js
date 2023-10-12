@@ -1,9 +1,9 @@
 import classes from './CartItem.module.css';
 import { useContext, useState } from 'react';
-import StoreContext from '../../../store/storeContext';
+import CartContext from '../../../store/cartContext';
 
 export default function CartItem({ item }) {
-  const { cartItems, setCartItems, setTotal } = useContext(StoreContext);
+  const { cartItems, setCartItems, setTotal } = useContext(CartContext);
   const [amount, setAmount] = useState(cartItems[item.id].amount);
 
   const increaseAmount = () => {

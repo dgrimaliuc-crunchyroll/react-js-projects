@@ -1,11 +1,11 @@
 import classes from './Cart.module.css';
 import CartItem from './CartItem/CartItem';
 import { useContext } from 'react';
-import StoreContext from '../../store/storeContext';
+import CartContext from '../../store/cartContext';
 
 export default function Cart() {
   const { cartItems, total, closeCart, setCartItems, setTotal } =
-    useContext(StoreContext);
+    useContext(CartContext);
 
   if (!total.amount) {
     closeCart();

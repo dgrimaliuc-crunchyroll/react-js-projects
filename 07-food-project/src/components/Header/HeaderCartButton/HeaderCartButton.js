@@ -1,10 +1,10 @@
 import classes from './HeaderCartButton.module.css';
 import CartIcon from './CartIcon';
 import { useContext } from 'react';
-import StoreContext from '../../../store/storeContext';
+import CartContext from '../../../store/cartContext';
 
 export default function HeaderCartButton() {
-  const { total, openCart } = useContext(StoreContext);
+  const { total, openCart } = useContext(CartContext);
   return (
     <div className={classes.bump}>
       <button

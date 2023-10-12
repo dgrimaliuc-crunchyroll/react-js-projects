@@ -1,12 +1,12 @@
 import { Fragment, useContext } from 'react';
 import { createPortal } from 'react-dom';
 import classes from './Modal.module.css';
-import StoreContext from '../../store/storeContext';
+import CartContext from '../../store/cartContext';
 import Cart from '../Cart/Cart';
 import Card from '../Card/Card';
 
 export default function Modal() {
-  const { cartItems, isCartOpen, closeCart } = useContext(StoreContext);
+  const { cartItems, isCartOpen, closeCart } = useContext(CartContext);
   if (!isCartOpen) return null;
   return (
     <Fragment>

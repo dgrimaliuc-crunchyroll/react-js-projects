@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import classes from './MealItem.module.css';
 import MealItemForm from '../MealItemForm/MealItemForm';
-import StoreContext from '../../store/storeContext';
+import CartContext from '../../store/cartContext';
 
 export default function MealItem({ meal }) {
-  const { setCartItems, setTotal } = useContext(StoreContext);
+  const { setCartItems, setTotal } = useContext(CartContext);
   const [amount, setAmount] = useState(0);
 
   function onAddToCart(event) {
