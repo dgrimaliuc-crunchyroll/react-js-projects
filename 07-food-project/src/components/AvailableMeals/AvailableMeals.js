@@ -8,8 +8,8 @@ export default function AvailableMeals({ meals }) {
     <div className={classes.meals}>
       <Card>
         <ul>
-          {meals.map((m, index) => (
-            <MealItem key={index} meal={m} />
+          {meals.map((m) => (
+            <MealItem key={m.id} meal={m} />
           ))}
         </ul>
       </Card>

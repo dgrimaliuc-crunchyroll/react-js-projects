@@ -1,8 +1,12 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useContext } from 'react';
 import { createPortal } from 'react-dom';
 import classes from './Modal.module.css';
+import StoreContext from '../../store/storeContext';
+import Cart from '../Cart/Cart';
+import Card from '../Card/Card';
 
-export default function Modal({ cartItems, isCartOpen, closeCart }) {
+export default function Modal() {
+  const { cartItems, isCartOpen, closeCart } = useContext(StoreContext);
   if (!isCartOpen) return null;
   return (
     <Fragment>
@@ -11,14 +15,9 @@ export default function Modal({ cartItems, isCartOpen, closeCart }) {
         document.getElementById('backdrop')
       )}
       {createPortal(
-        <div className={classes.modal}>
-          {cartItems.map((m, index) => (
-            <div key={index}>item {m}</div>
-          ))}
-          <div>
-            <button onClick={closeCart}>Close</button>
-          </div>
-        </div>,
+        <Card className={classes.modal}>
+          <Cart items={cartItems} />
+        </Card>,
         document.getElementById('modal')
       )}
     </Fragment>

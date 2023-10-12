@@ -1,33 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Header from './components/Header/Header';
 import MealsSummary from './components/MealsSummary/MealsSummary';
 import AvailableMeals from './components/AvailableMeals/AvailableMeals';
 import Modal from './components/Modal/Modal';
+import { StoreProvider } from './store/storeContext';
 
 import { DUMMY_MEALS } from './assets/dummy-meals.js';
 
 function App() {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const cartItems = [];
-
-  function openCart() {
-    setIsCartOpen(true);
-  }
-  function closeCart() {
-    setIsCartOpen(false);
-  }
-
   return (
-    <div>
-      <Modal
-        cartItems={cartItems}
-        isCartOpen={isCartOpen}
-        closeCart={closeCart}
-      />
-      <Header openCart={openCart} />
+    <StoreProvider>
+      <Modal />
+      <Header />
       <MealsSummary />
       <AvailableMeals meals={DUMMY_MEALS} />
-    </div>
+    </StoreProvider>
   );
 }
 
