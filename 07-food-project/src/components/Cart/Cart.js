@@ -9,7 +9,7 @@ export default function Cart() {
   if (!cart.total.amount) {
     closeCart();
   }
-  console.log(cart);
+
   return (
     <div>
       <div className={classes['cart-items']}>

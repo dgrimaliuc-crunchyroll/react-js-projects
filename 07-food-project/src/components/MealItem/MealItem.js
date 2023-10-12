@@ -10,18 +10,6 @@ export default function MealItem({ meal }) {
   function onAddToCart(event) {
     event.preventDefault();
     addItem(meal, amount);
-    // setCartItems((prev) => {
-    //   const currentAmount = prev[meal.id] ? prev[meal.id].amount : 0;
-    //   prev[meal.id] = { ...meal, amount: currentAmount + amount };
-    //   setTotal((prev) => {
-    //     return {
-    //       price: prev.price + meal.price * amount,
-    //       amount: prev.amount + amount,
-    //     };
-    //   });
-    //   return prev;
-    // });
-
     setAmount(0);
   }
 
