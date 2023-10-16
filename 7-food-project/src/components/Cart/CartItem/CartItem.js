@@ -16,9 +16,6 @@ export default function CartItem({ item }) {
     setAmount((prev) => prev - 1);
   };
 
-  if (!amount) {
-    return null;
-  }
 
   return (
     <div className={classes['cart-item']}>

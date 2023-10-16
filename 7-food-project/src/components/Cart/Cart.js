@@ -20,15 +20,17 @@ export default function Cart() {
       <div>
         <div className={classes.total}>
           <span>Total</span>
-          <span>${cart.total.price.toFixed(2)}</span>
+          <span>${Math.abs(cart.total.price).toFixed(2)}</span>
         </div>
         <div className={classes.actions}>
           <button className={classes['button--alt']} onClick={closeCart}>
             Close
           </button>
-          <button className={classes.button} onClick={makeOrder}>
-            Order
-          </button>
+          {cart.total.amount > 0 && (
+            <button className={classes.button} onClick={makeOrder}>
+              Order
+            </button>
+          )}
         </div>
       </div>
     </div>

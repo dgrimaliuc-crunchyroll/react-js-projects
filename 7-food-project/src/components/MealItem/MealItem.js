@@ -5,12 +5,12 @@ import CartContext from '../../store/cartContext';
 
 export default function MealItem({ meal }) {
   const { addItem } = useContext(CartContext);
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState('');
 
   function onAddToCart(event) {
     event.preventDefault();
-    addItem(meal, amount);
-    setAmount(0);
+    addItem(meal, +amount);
+    setAmount('');
   }
 
   return (
