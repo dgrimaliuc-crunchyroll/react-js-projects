@@ -7,6 +7,7 @@ const SimpleInput = (props) => {
     userName,
     isUserNameValid,
     userNameIsTouched,
+    usernameHasError,
     setUserNameIsTouched,
     onUsernameChangeHandler,
     resetUserNameInput,
@@ -16,6 +17,7 @@ const SimpleInput = (props) => {
     email,
     isEmailValid,
     emailIsTouched,
+    emailHasError,
     setEmailIsTouched,
     onEmailChangeHandler,
     resetEmailInput,
@@ -50,7 +52,7 @@ const SimpleInput = (props) => {
           onBlur={setUserNameIsTouched.bind(null, true)}
           onChange={onUsernameChangeHandler}
         />
-        {userNameIsTouched && !isUserNameValid && (
+        {usernameHasError && (
           <p className='errorMessage'>Username must not be empty</p>
         )}
       </div>
@@ -63,7 +65,7 @@ const SimpleInput = (props) => {
           onBlur={setEmailIsTouched.bind(null, true)}
           onChange={onEmailChangeHandler}
         />
-        {emailIsTouched && !isEmailValid && (
+        {emailHasError && (
           <p className='errorMessage'>Email must not be empty and contain @</p>
         )}
       </div>
