@@ -92,6 +92,25 @@ button:active {
   background-color: #fddddd;
 }
 
+.invalid .errorMessage {
+  color: #b40e0e;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+form:has(div.invalid) button
+{
+  background-color: gray;
+  color: white;
+  /* pointer-events: none; */
+}
+
+button:disabled {
+  background-color: gray;
+  color: white;
+  /* pointer-events: none; */
+}
+
 .invalid input:focus {
   border-color: #ff8800;
   background-color: #fbe8d2;
