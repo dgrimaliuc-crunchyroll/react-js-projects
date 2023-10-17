@@ -1,43 +1,40 @@
 import { useState } from 'react';
 import useClassName from '../hooks/useClassName';
+import useInput from '../hooks/useInput';
 
 const SimpleInput = (props) => {
-  const [userName, setUserName] = useState('');
-  const [email, setEmail] = useState('');
-  const [userNameIsTouched, setUserNameIsTouched] = useState(false);
-  const [emailIsTouched, setEmailIsTouched] = useState(false);
+  const [
+    userName,
+    isUserNameValid,
+    userNameIsTouched,
+    setUserNameIsTouched,
+    onUsernameChangeHandler,
+    resetUserNameInput,
+  ] = useInput((value) => value.trim() !== '');
 
-  const isUserNameValid = userName.trim() !== '';
-  const isEmailValid = email.trim() !== '' && email.includes('@');
+  const [
+    email,
+    isEmailValid,
+    emailIsTouched,
+    setEmailIsTouched,
+    onEmailChangeHandler,
+    resetEmailInput,
+  ] = useInput((value) => value.trim() !== '' && value.includes('@'));
+
   const isFormValid =
     userNameIsTouched || emailIsTouched
       ? isUserNameValid && isEmailValid
       : false;
 
-  function onUsernameChangeHandler(event) {
-    setUserName(event.target.value);
-    setUserNameIsTouched(true);
-  }
-
-  function onEmailChangeHandler(event) {
-    setEmail(event.target.value);
-    setEmailIsTouched(true);
-  }
-
   function onFormSubmitHandler(event) {
     event.preventDefault();
-    setUserNameIsTouched(true);
-    setEmailIsTouched(true);
     if (!isUserNameValid || !isEmailValid) {
-      console.log('Invalid input');
       return;
     }
     console.log(userName);
     console.log(email);
-    setUserName('');
-    setEmail('');
-    setUserNameIsTouched(false);
-    setEmailIsTouched(false);
+    resetUserNameInput();
+    resetEmailInput();
   }
 
   const userNameClasses = useClassName(!userNameIsTouched || isUserNameValid);
