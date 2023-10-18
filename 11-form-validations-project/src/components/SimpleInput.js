@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import useClassName from '../hooks/useClassName';
 import useInput from '../hooks/useInput';
 
