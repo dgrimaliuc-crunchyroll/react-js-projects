@@ -3,6 +3,11 @@ const mealsEndpoint =
 
 async function fetchMeals() {
   const response = await fetch(mealsEndpoint);
+  if (!response.ok) {
+    throw new Error(
+      'Something went wrong!\n' + response.status + ' ' + response.statusText
+    );
+  }
   const data = await response.json();
   return Object.values(data)[0];
 }
