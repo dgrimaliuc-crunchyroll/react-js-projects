@@ -1,5 +1,7 @@
-const mealsEndpoint =
-  'https://react-http-96283-default-rtdb.firebaseio.com/meals.json';
+const host = 'https://react-http-96283-default-rtdb.firebaseio.com/';
+
+const mealsEndpoint = `${host}meals.json`;
+const ordersEndpoint = `${host}orders.json`;
 
 async function fetchMeals() {
   const response = await fetch(mealsEndpoint);
@@ -12,8 +14,15 @@ async function fetchMeals() {
   return Object.values(data)[0];
 }
 
+function postOrder(meals, user) {
+  fetch(ordersEndpoint, {
+    method: 'POST',
+    body: JSON.stringify({ items: meals, user }),
+  });
+}
+
 function postMeals(meals) {
-  fetch('https://react-http-96283-default-rtdb.firebaseio.com/meals.json', {
+  fetch(mealsEndpoint, {
     method: 'POST',
     body: JSON.stringify(meals),
     headers: {
@@ -24,4 +33,4 @@ function postMeals(meals) {
     .then((json) => console.log(json));
 }
 
-export { fetchMeals, postMeals };
+export { fetchMeals, postMeals, postOrder };

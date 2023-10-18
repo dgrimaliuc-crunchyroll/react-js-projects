@@ -54,11 +54,28 @@
   background-color: #7a2706;
 }
 
-.invalid label {
+.control.invalid label {
   color: #ca3e51;
 }
 
 .invalid input {
   border-color: #aa0b20;
   background-color: #ffeff1;
+}
+
+.invalid p {
+  color: #aa0b20;
+  font:  icon;
+  font-size: small;
+}
+
+form:has(div.invalid) button:disabled[type='submit']
+{
+  background-color: gray;
+  color: white;
+}
+
+button:disabled {
+  background-color: gray;
+  color: white;
 }
