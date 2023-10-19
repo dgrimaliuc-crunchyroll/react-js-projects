@@ -3,13 +3,21 @@ import CartItem from './CartItem/CartItem';
 import { useContext, useState } from 'react';
 import CartContext from '../../store/cartContext';
 import Checkout from '../Checkout/Checkout';
+import OrderMessage from './OrderMessage';
 
 export default function Cart() {
   const { cart, closeCart } = useContext(CartContext);
+  const [isOrderSubitted, setIsOrderSubmitted] = useState(false);
+  const [isOrderProcessing, setIsOrderProcessing] = useState(false);
   const [isCheckout, setIsCheckout] = useState(false);
   function makeOrder() {
     setIsCheckout(true);
   }
+
+  function onSubmitOrder() {
+    setIsOrderProcessing(true);
+  }
+
   const cartItems = Object.values(cart.cartItems).map((item) => {
     return <CartItem key={item.id} item={item} />;
   });
@@ -27,8 +35,16 @@ export default function Cart() {
     </div>
   );
 
+  function onOrderSubmitted() {
+    setIsOrderProcessing(false);
+    setIsOrderSubmitted(true);
+  }
+
   return (
-    <div>
+    <OrderMessage
+      isOrderSubitted={isOrderSubitted}
+      isOrderProcessing={isOrderProcessing}
+    >
       <div className={classes['cart-items']}>{cartItems}</div>
       <div>
         <div className={classes.total}>
@@ -36,10 +52,14 @@ export default function Cart() {
           <span>${Math.abs(cart.total.price).toFixed(2)}</span>
         </div>
         {isCheckout && (
-          <Checkout onCancel={closeCart.bind(null)} />
+          <Checkout
+            onSubmit={onSubmitOrder}
+            onCancel={closeCart.bind(null)}
+            onFinishSubmit={onOrderSubmitted}
+          />
         )}
         {!isCheckout && preCheckoutActions}
       </div>
-    </div>
+    </OrderMessage>
   );
 }

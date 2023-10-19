@@ -6,8 +6,9 @@ export default function Input({ value, setValue }) {
   }
   return (
     <div className={classes.input}>
-      <label>Amount</label>
+      <label htmlFor='amount'>Amount</label>
       <input
+        id='amount'
         type='number'
         min='1'
         max='5'

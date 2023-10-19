@@ -1,0 +1,80 @@
+.flash-message {
+  /* background-color: #00b500; */
+
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 0;
+  transform: translate(0, -100%);
+  color: black;
+  height: 400px;
+  /* z-index: ; */
+}
+
+  .is-slide-in {
+    display: block;
+    animation: message-slide-down 0.2s ease-in-out 0s normal 1 forwards running;
+  }
+
+  .is-slide-out {
+    display: block;
+    animation: message-slide-up 0.2s ease-in-out 0s normal 1 forwards running;
+  }
+
+  .is-error {
+    background: #a21414;;
+  }
+
+  .is-success {
+    background:  #00b500;;
+  }
+
+  .wrapper {
+    margin-inline-end: 3rem;
+    padding: 0.8125rem 1.25rem;
+    transition: background-color 0.15s ease;
+
+  }
+
+
+ .dismiss {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    width: 3rem;
+    height: 100%;
+    display: flex;
+    transition: background-color 0.15s ease;
+  }
+
+.close-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: black;
+    margin: auto;
+  }
+
+
+@keyframes message-slide-down {
+  0% {
+    transform: translate(0, -100%);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes message-slide-up {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  99% {
+    transform: translate(0, -100%);
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

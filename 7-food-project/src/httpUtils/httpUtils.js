@@ -14,8 +14,8 @@ async function fetchMeals() {
   return Object.values(data)[0];
 }
 
-function postOrder(meals, user) {
-  fetch(ordersEndpoint, {
+async function postOrder(meals, user) {
+  return await fetch(ordersEndpoint, {
     method: 'POST',
     body: JSON.stringify({ items: meals, user }),
   });

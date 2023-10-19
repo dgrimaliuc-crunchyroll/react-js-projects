@@ -59,6 +59,7 @@ const Checkout = (props) => {
   const confirmOrder = (event) => {
     event.preventDefault();
     if (!isFormValid) return;
+    props.onSubmit();
     postOrder(cart, {
       id: Math.random().toString(),
       date: new Date(),
@@ -66,9 +67,11 @@ const Checkout = (props) => {
       city,
       street,
       postalCode,
+    }).then(() => {
+      console.log('Order submitted');
+      props.onFinishSubmit();
     });
-
-    closeCart();
+    // closeCart();
     setInitialState();
   };
 
