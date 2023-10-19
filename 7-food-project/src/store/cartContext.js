@@ -1,4 +1,5 @@
-import { createContext, useState, useReducer } from 'react';
+import { createContext, useState, useReducer, useId } from 'react';
+import { v4 as uuid } from 'uuid';
 
 const initialCartState = {
   cartItems: {},
@@ -13,6 +14,8 @@ const CartContext = createContext({
   isCartOpen: false,
   openCart: () => {},
   closeCart: () => {},
+  getOrCreateUser: () => {},
+  saveUserData: () => {},
 });
 export default CartContext;
 
@@ -74,6 +77,22 @@ export function CartContextProvider({ children }) {
   function removeItem(meal) {
     dispatch({ type: 'REMOVE_ITEM', value: meal });
   }
+
+  function getOrCreateUser() {
+    let existsingUser = JSON.parse(window.localStorage.getItem('user'));
+    if (!existsingUser) {
+      existsingUser = { id: uuid() };
+      window.localStorage.setItem('user', JSON.stringify(existsingUser));
+    }
+    return existsingUser;
+  }
+
+  function saveUserData(userData) {
+    let currentUser = getOrCreateUser();
+    currentUser = { ...currentUser, ...userData };
+    window.localStorage.setItem('user', JSON.stringify(currentUser));
+  }
+
   function setInitialState() {
     dispatch({ type: 'SET_INITIAL_STATE' });
   }
@@ -95,6 +114,8 @@ export function CartContextProvider({ children }) {
         isCartOpen,
         openCart,
         closeCart,
+        getOrCreateUser,
+        saveUserData,
       }}
     >
       {children}

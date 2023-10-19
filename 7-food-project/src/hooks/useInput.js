@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-export default function useInput() {
-  const [value, setValue] = useState('');
+export default function useInput(initValue) {
+  const [value, setValue] = useState(initValue || '');
   const [isTouched, setIsTouched] = useState(false);
   const isValid = value.trim() !== '';
   const hasError = isTouched && !isValid;

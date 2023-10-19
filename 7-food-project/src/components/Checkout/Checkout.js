@@ -7,7 +7,9 @@ import { useContext } from 'react';
 import CartContext from '../../store/cartContext';
 
 const Checkout = (props) => {
-  const { cart, closeCart, setInitialState } = useContext(CartContext);
+  const { cart, closeCart, setInitialState, getOrCreateUser, saveUserData } =
+    useContext(CartContext);
+  let currentUser = getOrCreateUser();
 
   const [
     name,
@@ -16,7 +18,7 @@ const Checkout = (props) => {
     isNameTouched,
     setNameIsTouched,
     nameChangeHandler,
-  ] = useInput();
+  ] = useInput(currentUser.name);
 
   const [
     street,
@@ -25,7 +27,7 @@ const Checkout = (props) => {
     isStreetTouched,
     setIsStreetTouched,
     streetChangeHandler,
-  ] = useInput();
+  ] = useInput(currentUser.street);
 
   const [
     postalCode,
@@ -34,7 +36,7 @@ const Checkout = (props) => {
     isPostalCodeTouched,
     setIsPostalCodeTouched,
     postalCodeChangeHandler,
-  ] = useInput();
+  ] = useInput(currentUser.postalCode);
 
   const [
     city,
@@ -43,7 +45,7 @@ const Checkout = (props) => {
     isCityTouched,
     setIsCityTouched,
     cityChangeHandler,
-  ] = useInput();
+  ] = useInput(currentUser.city);
 
   const nameClasses = useClassName(classes, !isNameTouched || isNameValid);
   const streetClasses = useClassName(
@@ -59,19 +61,20 @@ const Checkout = (props) => {
   const confirmOrder = (event) => {
     event.preventDefault();
     if (!isFormValid) return;
+    saveUserData({
+      name: name.trim(),
+      street: street.trim(),
+      postalCode: postalCode.trim(),
+      city: city.trim(),
+    });
     props.onSubmit();
-    postOrder(cart, {
-      id: Math.random().toString(),
-      date: new Date(),
-      name,
-      city,
-      street,
-      postalCode,
-    }).then(() => {
+    postOrder(cart, { ...getOrCreateUser(), date: new Date() }).then(() => {
       console.log('Order submitted');
       props.onFinishSubmit();
+      setTimeout(() => {
+        closeCart();
+      }, 3000);
     });
-    // closeCart();
     setInitialState();
   };
 
