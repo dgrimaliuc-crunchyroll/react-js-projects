@@ -1,6 +1,6 @@
 import classes from './Header.module.css';
 import headerImage from '../../assets/meals.jpg';
-import HeaderCartButton from './HeaderCartButton/HeaderCartButton';
+import HeaderCartButton from '../HeaderCartButton/HeaderCartButton';
 
 
 export default function Header() {

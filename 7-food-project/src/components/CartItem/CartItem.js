@@ -1,6 +1,6 @@
 import classes from './CartItem.module.css';
 import { useContext, useState } from 'react';
-import CartContext from '../../../store/cartContext';
+import CartContext from '../../store/cartContext';
 
 export default function CartItem({ item }) {
   const { cart, addItem, removeItem } = useContext(CartContext);
@@ -15,7 +15,6 @@ export default function CartItem({ item }) {
     removeItem(item);
     setAmount((prev) => prev - 1);
   };
-
 
   return (
     <div className={classes['cart-item']}>
