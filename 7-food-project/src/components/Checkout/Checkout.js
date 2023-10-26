@@ -5,10 +5,14 @@ import CheckoutInput from './CheckoutInput';
 import { postOrder } from '../../httpUtils/httpUtils';
 import { useContext } from 'react';
 import CartContext from '../../store/cartContext';
+import CartActionsContext from '../../store/cartActionsContext';
 
 const Checkout = (props) => {
-  const { cart, closeCart, setInitialState, getOrCreateUser, saveUserData } =
+  const { cart, setInitialState, getOrCreateUser, saveUserData } =
     useContext(CartContext);
+
+  const { closeCart } = useContext(CartActionsContext);
+
   let currentUser = getOrCreateUser();
 
   const [

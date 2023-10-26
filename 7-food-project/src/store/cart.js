@@ -2,19 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialCartState = {
   cartItems: {},
+  isOpen: false,
   total: { amount: 0, price: 0 },
-};
-
-const CartContext = {
-  cart: { ...initialCartState },
-  addItem: () => {},
-  removeItem: () => {},
-  setInitialState: () => {},
-  isCartOpen: false,
-  openCart: () => {},
-  closeCart: () => {},
-  getOrCreateUser: () => {},
-  saveUserData: () => {},
 };
 
 const cartSlice = createSlice({
@@ -43,6 +32,13 @@ const cartSlice = createSlice({
     },
     setInitialState(state) {
       state = { cartItems: {}, total: { amount: 0, price: 0 } };
+    },
+
+    openCart(state) {
+      state.isOpen = true;
+    },
+    closeCart(state) {
+      state.isOpen = false;
     },
   },
 });

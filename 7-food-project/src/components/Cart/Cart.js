@@ -2,11 +2,13 @@ import classes from './Cart.module.css';
 import CartItem from '../CartItem/CartItem';
 import { useContext, useState } from 'react';
 import CartContext from '../../store/cartContext';
+import CartActionsContext from '../../store/cartActionsContext';
 import Checkout from '../Checkout/Checkout';
 import OrderMessage from './OrderMessage';
 
 export default function Cart() {
-  const { cart, closeCart } = useContext(CartContext);
+  const { cart } = useContext(CartContext);
+  const { closeCart } = useContext(CartActionsContext);
   const [isOrderSubitted, setIsOrderSubmitted] = useState(false);
   const [isOrderProcessing, setIsOrderProcessing] = useState(false);
   const [isCheckout, setIsCheckout] = useState(false);
@@ -56,7 +58,7 @@ export default function Cart() {
         {isCheckout && (
           <Checkout
             onSubmit={setIsOrderProcessing.bind(null, true)}
-            onCancel={closeCart.bind(null)}
+            onCancel={closeCart}
             onFinishSubmit={onOrderSubmitted}
           />
         )}

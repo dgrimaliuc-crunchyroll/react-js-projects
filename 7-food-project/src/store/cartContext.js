@@ -1,8 +1,9 @@
-import { createContext, useState, useReducer, useId } from 'react';
+import { createContext, useReducer } from 'react';
 import { v4 as uuid } from 'uuid';
 
 const initialCartState = {
   cartItems: {},
+  isOpen: false,
   total: { amount: 0, price: 0 },
 };
 
@@ -11,7 +12,6 @@ const CartContext = createContext({
   addItem: () => {},
   removeItem: () => {},
   setInitialState: () => {},
-  isCartOpen: false,
   openCart: () => {},
   closeCart: () => {},
   getOrCreateUser: () => {},
@@ -68,7 +68,6 @@ function cartReducer(state, action) {
 
 export function CartContextProvider({ children }) {
   const [cart, dispatch] = useReducer(cartReducer, { ...initialCartState });
-  const [isCartOpen, setIsCartOpen] = useState(false);
 
   function addItem(meal, amount) {
     dispatch({ type: 'ADD_ITEM', value: { meal, amount } });
@@ -97,13 +96,6 @@ export function CartContextProvider({ children }) {
     dispatch({ type: 'SET_INITIAL_STATE' });
   }
 
-  function openCart() {
-    setIsCartOpen(true);
-  }
-  function closeCart() {
-    setIsCartOpen(false);
-  }
-
   return (
     <CartContext.Provider
       value={{
@@ -111,9 +103,6 @@ export function CartContextProvider({ children }) {
         addItem,
         removeItem,
         setInitialState,
-        isCartOpen,
-        openCart,
-        closeCart,
         getOrCreateUser,
         saveUserData,
       }}

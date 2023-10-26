@@ -4,17 +4,18 @@ import MealsSummary from './components/MealsSummary/MealsSummary';
 import AvailableMeals from './components/AvailableMeals/AvailableMeals';
 import Modal from './components/Modal/Modal';
 import { CartContextProvider } from './store/cartContext';
-
-import { DUMMY_MEALS } from './assets/dummy-meals.js';
+import { CartActionsContextProvider } from './store/cartActionsContext';
 
 function App() {
   return (
-    <CartContextProvider>
-      <Modal />
-      <Header />
-      <MealsSummary />
-      <AvailableMeals meals={DUMMY_MEALS} />
-    </CartContextProvider>
+    <CartActionsContextProvider>
+      <CartContextProvider>
+        <Modal />
+        <Header />
+        <MealsSummary />
+        <AvailableMeals />
+      </CartContextProvider>
+    </CartActionsContextProvider>
   );
 }
 
