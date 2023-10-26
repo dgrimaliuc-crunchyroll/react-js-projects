@@ -1,14 +1,14 @@
 import { useContext } from 'react';
 import { createPortal } from 'react-dom';
 import classes from './Modal.module.css';
-import CartActionsContext from '../../store/cartActionsContext';
+import ActionsContext from '../../store/actionsContext';
 import Cart from '../Cart/Cart';
 import Card from '../Card/Card';
 import { useSelector } from 'react-redux';
 
 export default function Modal() {
   const isCartOpen = useSelector((state) => state.cart.isOpen);
-  const { closeCart } = useContext(CartActionsContext);
+  const { closeCart } = useContext(ActionsContext);
   if (!isCartOpen) return null;
   return (
     <>

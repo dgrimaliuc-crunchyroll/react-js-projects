@@ -1,10 +1,15 @@
 import classes from './CartItem.module.css';
 import { useContext, useState } from 'react';
-import CartContext from '../../store/cartContext';
+import ActionsContext from '../../store/actionsContext';
+import { useSelector } from 'react-redux';
 
 export default function CartItem({ item }) {
-  const { cart, addItem, removeItem } = useContext(CartContext);
-  const [amount, setAmount] = useState(cart.cartItems[item.id].amount);
+  const { addItem, removeItem } = useContext(ActionsContext);
+  const initialAmount = useSelector(
+    (state) => state.cart.cartItems[item.id].amount
+  );
+
+  const [amount, setAmount] = useState(initialAmount);
 
   const increaseAmount = () => {
     addItem(item, 1);

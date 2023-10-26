@@ -1,14 +1,14 @@
 import classes from './Cart.module.css';
 import CartItem from '../CartItem/CartItem';
 import { useContext, useState } from 'react';
-import CartContext from '../../store/cartContext';
-import CartActionsContext from '../../store/cartActionsContext';
+import ActionsContext from '../../store/actionsContext';
 import Checkout from '../Checkout/Checkout';
 import OrderMessage from './OrderMessage';
+import { useSelector } from 'react-redux';
 
 export default function Cart() {
-  const { cart } = useContext(CartContext);
-  const { closeCart } = useContext(CartActionsContext);
+  const cart = useSelector((state) => state.cart);
+  const { closeCart } = useContext(ActionsContext);
   const [isOrderSubitted, setIsOrderSubmitted] = useState(false);
   const [isOrderProcessing, setIsOrderProcessing] = useState(false);
   const [isCheckout, setIsCheckout] = useState(false);

@@ -4,16 +4,15 @@ import classes from './Checkout.module.css';
 import CheckoutInput from './CheckoutInput';
 import { postOrder } from '../../httpUtils/httpUtils';
 import { useContext } from 'react';
-import CartContext from '../../store/cartContext';
-import CartActionsContext from '../../store/cartActionsContext';
+import ActionsContext from '../../store/actionsContext';
+import { useSelector } from 'react-redux';
 
 const Checkout = (props) => {
-  const { cart, setInitialState, getOrCreateUser, saveUserData } =
-    useContext(CartContext);
-
-  const { closeCart } = useContext(CartActionsContext);
-
-  let currentUser = getOrCreateUser();
+  const cart = useSelector((state) => state.cart);
+  const { fetchUser, saveUser, closeCart, setInitialState } =
+    useContext(ActionsContext);
+  fetchUser();
+  let currentUser = useSelector((state) => state.user);
 
   const [
     name,
@@ -65,14 +64,16 @@ const Checkout = (props) => {
   const confirmOrder = (event) => {
     event.preventDefault();
     if (!isFormValid) return;
-    saveUserData({
-      name: name.trim(),
-      street: street.trim(),
-      postalCode: postalCode.trim(),
-      city: city.trim(),
-    });
+
+    const userToSave = {
+      name: name,
+      street: street,
+      postalCode: postalCode,
+      city: city,
+    };
+    saveUser(userToSave);
     props.onSubmit();
-    postOrder(cart, { ...getOrCreateUser(), date: new Date() }).then(() => {
+    postOrder(cart, { user: currentUser, date: new Date() }).then(() => {
       console.log('Order submitted');
       props.onFinishSubmit();
       setTimeout(() => {
