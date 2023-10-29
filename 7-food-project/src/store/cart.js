@@ -4,6 +4,7 @@ const initialCartState = {
   cartItems: {},
   isOpen: false,
   total: { amount: 0, price: 0 },
+  isChanged: false,
 };
 
 const cartSlice = createSlice({
@@ -11,6 +12,7 @@ const cartSlice = createSlice({
   initialState: { ...initialCartState },
   reducers: {
     addItem(state, action) {
+      state.isChanged = true;
       const { meal, amount } = action.payload;
       const cartItems = state.cartItems;
       const currentAmount = cartItems[meal.id] ? cartItems[meal.id].amount : 0;
@@ -19,6 +21,7 @@ const cartSlice = createSlice({
       state.total.amount = state.total.amount + amount;
     },
     removeItem(state, action) {
+      state.isChanged = true;
       const mealToExtract = action.payload.meal;
       const currentCartItems = state.cartItems;
       const mealAmount = currentCartItems[mealToExtract.id].amount;
@@ -31,14 +34,26 @@ const cartSlice = createSlice({
       state.total.amount = state.total.amount - 1;
     },
     setInitialState(state) {
+      state.isChanged = true;
+      state.isOpen = false;
       state.cartItems = {};
       state.total = { amount: 0, price: 0 };
     },
+    setState(state, action) {
+      state.isChanged = false;
+      state.isOpen = false;
+      if (action.payload) {
+        state.cartItems = action.payload.cartItems || {};
+        state.total = action.payload.total || {};
+      }
+    },
 
     openCart(state) {
+      state.isChanged = false;
       state.isOpen = true;
     },
     closeCart(state) {
+      state.isChanged = false;
       state.isOpen = false;
     },
   },
