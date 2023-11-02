@@ -12,14 +12,13 @@ export async function newEventAction({ request, params }) {
   };
 
   const resp = await fetch('http://localhost:8080/events', {
-    method: request.method,
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(newEvent),
   });
   if (!resp.ok) {
-    console.log(resp);
     throw json(
       {
         message: `Could not create event. ${resp.statusText}`,

@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import EventsPage, { eventsLoader } from './pages/EventsPage';
-import EventDetailPage, { eventLoader } from './pages/EventDetailPage';
+import EventDetailPage, {
+  deleteEventAction,
+  eventLoader,
+} from './pages/EventDetailPage';
 import NewEventPage, { newEventAction } from './pages/NewEventPage';
 import EditEventPage, { updateEventAction } from './pages/EditEventPage';
 import NavigationRouter from './pages/NavigationRouter';
@@ -34,7 +37,11 @@ const router = createBrowserRouter([
             id: 'event-detail', // prefetching
             loader: eventLoader,
             children: [
-              { index: true, element: <EventDetailPage /> },
+              {
+                index: true,
+                element: <EventDetailPage />,
+                action: deleteEventAction,
+              },
               {
                 path: 'edit',
                 element: <EditEventPage />,
