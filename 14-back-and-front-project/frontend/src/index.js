@@ -7,14 +7,16 @@ import EventDetailPage, {
   deleteEventAction,
   eventLoader,
 } from './pages/EventDetailPage';
-import NewEventPage, { newEventAction } from './pages/NewEventPage';
-import EditEventPage, { updateEventAction } from './pages/EditEventPage';
+import NewEventPage from './pages/NewEventPage';
+import EditEventPage from './pages/EditEventPage';
 import NavigationRouter from './pages/NavigationRouter';
 import './index.css';
 import { Provider } from 'react-redux';
 import store from './store/index';
 import EventsNavigationRouter from './pages/EventsNavigationRouter';
 import ErrorPage from './pages/ErrorPage';
+import { submitEventAction } from './components/EventForm';
+import NewsletterPage, { newsAction } from './pages/NewsletterPage';
 
 const router = createBrowserRouter([
   {
@@ -45,13 +47,14 @@ const router = createBrowserRouter([
               {
                 path: 'edit',
                 element: <EditEventPage />,
-                action: updateEventAction,
+                action: submitEventAction,
               },
             ],
           },
-          { path: 'new', element: <NewEventPage />, action: newEventAction },
+          { path: 'new', element: <NewEventPage />, action: submitEventAction },
         ],
       },
+      { path: 'newsletter', element: <NewsletterPage />, action: newsAction },
     ],
   },
 ]);

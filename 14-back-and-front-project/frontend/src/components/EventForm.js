@@ -1,8 +1,55 @@
-import { Form, useNavigate, useNavigation } from 'react-router-dom';
+import {
+  Form,
+  json,
+  redirect,
+  useNavigate,
+  useNavigation,
+  useActionData,
+} from 'react-router-dom';
 
 import classes from './EventForm.module.css';
 
+export async function submitEventAction({ request, params }) {
+  const data = await request.formData();
+
+  const newEvent = {
+    title: data.get('title'),
+    description: data.get('description'),
+    image: data.get('image'),
+    date: data.get('date'),
+  };
+
+  let url = `http://localhost:8080/events`;
+  if (request.method === 'PATCH') {
+    url += `/${params.eventId}`;
+  }
+
+  const resp = await fetch(url, {
+    method: request.method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newEvent),
+  });
+
+  if (resp.status === 422) {
+    return resp;
+  }
+
+  if (!resp.ok) {
+    throw json(
+      {
+        message: `Could not create event. ${resp.statusText}`,
+      },
+      { status: resp.status }
+    );
+  }
+  return redirect('/events');
+}
+
 function EventForm({ method, event }) {
+  const actionData = useActionData();
+
   const navigate = useNavigate();
   const navigation = useNavigation();
   function cancelHandler() {
@@ -14,6 +61,14 @@ function EventForm({ method, event }) {
   return (
     // yoou can use action='/events' and then action for this path will be applied
     <Form method={method} className={classes.form}>
+      {actionData && actionData.errors && (
+        <ul>
+          {Object.values(actionData.errors).map((err) => (
+            <li key={err}>{err}</li>
+          ))}
+        </ul>
+      )}
+
       <p>
         <label htmlFor='title'>Title</label>
         <input

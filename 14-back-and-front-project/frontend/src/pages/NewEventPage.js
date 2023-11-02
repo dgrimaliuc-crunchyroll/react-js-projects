@@ -1,33 +1,4 @@
-import { json, redirect } from 'react-router-dom';
 import EventForm from '../components/EventForm';
-
-export async function newEventAction({ request, params }) {
-  const data = await request.formData();
-
-  const newEvent = {
-    title: data.get('title'),
-    description: data.get('description'),
-    image: data.get('image'),
-    date: data.get('date'),
-  };
-
-  const resp = await fetch('http://localhost:8080/events', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(newEvent),
-  });
-  if (!resp.ok) {
-    throw json(
-      {
-        message: `Could not create event. ${resp.statusText}`,
-      },
-      { status: resp.status }
-    );
-  }
-  return redirect('/events');
-}
 
 export default function NewEventPage() {
   return (
