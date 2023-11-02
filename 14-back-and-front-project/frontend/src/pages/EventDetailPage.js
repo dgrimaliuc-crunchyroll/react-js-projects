@@ -1,19 +1,20 @@
-import { useParams } from 'react-router-dom';
-import { getEvent } from '../store/utils/api';
-import { useEffect, useState } from 'react';
+import { useRouteLoaderData } from 'react-router-dom';
 import EventItem from '../components/EventItem';
 
-export default function EventDetailPage() {
-  const [event, setEvent] = useState(null);
-  const params = useParams();
+export async function eventLoader({ params }) {
+  const response = await fetch(
+    `http://localhost:8080/events/${params.eventId}`
+  );
+  if (!response.ok) {
+    throw new Response(response.statusText, { status: response.status });
+  } else {
+    const resData = await response.json();
+    return await resData.event;
+  }
+}
 
-  useEffect(() => {
-    getEvent(params.eventId)
-      .then((resp) => setEvent(resp.event))
-      .catch((err) => {
-        throw err;
-      });
-  }, [params.eventId]);
+export default function EventDetailPage() {
+  const event = useRouteLoaderData('event-detail');
 
   return (
     <>

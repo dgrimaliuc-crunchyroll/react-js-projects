@@ -5,9 +5,7 @@ export default function EventsNavigationRouter() {
   return (
     <>
       <EventsNavigation />
-      <main>
-        <Outlet />
-      </main>
+      <Outlet />
     </>
   );
 }

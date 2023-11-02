@@ -1,15 +1,19 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchEvents } from '../store/thunks/events';
 import EventsList from '../components/EventsList';
+import { useLoaderData } from 'react-router-dom'; //json
 
-export default function EventsPage() {
-  const dispatch = useDispatch();
-  const events = useSelector((state) => state.events.events);
+export async function eventsLoader() {
+  const response = await fetch('http://localhost:8080/events');
 
-  useEffect(() => {
-    dispatch(fetchEvents());
-  }, [dispatch]);
+  if (!response.ok) {
+    throw new Response(response.statusText, { status: response.status }); // or json(...)
+  } else {
+    const resData = await response.json();
+    return await resData.events;
+  }
+}
+
+function EventsPage() {
+  const events = useLoaderData();
   return (
     <>
       <h1>Events Page</h1>
@@ -17,3 +21,5 @@ export default function EventsPage() {
     </>
   );
 }
+
+export default EventsPage;

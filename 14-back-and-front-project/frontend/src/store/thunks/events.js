@@ -9,9 +9,7 @@ export function fetchEvents() {
         throw new Error('Could not fetch events.');
       }
 
-      const data = await response.json();
-
-      return data;
+     return await response.json();
     };
     const response = await fetchData();
     dispatch(eventsActions.setEvents(response.events));

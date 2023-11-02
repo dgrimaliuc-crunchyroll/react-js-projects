@@ -1,8 +1,7 @@
 import classes from './EventItem.module.css';
 import { Link } from 'react-router-dom';
 
-function EventItem({ event, showActions = true }) {
-  console.log(event);
+function EventItem({ event, showBody = true }) {
   function startDeleteHandler() {
     // ...
   }
@@ -10,16 +9,17 @@ function EventItem({ event, showActions = true }) {
   return (
     <article className={classes.event}>
       <img src={event.image} alt={event.title} />
-      <h1>{event.title}</h1>
-      <time>{event.date}</time>
-      <p>{event.description}</p>
-      {showActions === true && (
-        <menu className={classes.actions}>
-          <Link to='edit' relative='path'>
-            Edit
-          </Link>
-          (<button onClick={startDeleteHandler}>Delete</button>)
-        </menu>
+      {showBody === true && (
+        <>
+          <h1>{event.title}</h1>
+          <time>{event.date}</time>
+          <p>{event.description}</p>
+
+          <menu className={classes.actions}>
+            <Link to='edit'>Edit</Link>(
+            <button onClick={startDeleteHandler}>Delete</button>)
+          </menu>
+        </>
       )}
     </article>
   );

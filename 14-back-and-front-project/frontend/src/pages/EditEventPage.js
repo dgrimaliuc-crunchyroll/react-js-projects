@@ -1,28 +1,46 @@
 import EventForm from '../components/EventForm';
-import { getEvent } from '../store/utils/api';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useRouteLoaderData, json, redirect } from 'react-router-dom';
 import EventItem from '../components/EventItem';
 
+export async function updateEventAction({ request, params }) {
+  const data = await request.formData();
+
+  const newEvent = {
+    title: data.get('title'),
+    description: data.get('description'),
+    image: data.get('image'),
+    date: data.get('date'),
+  };
+
+  const resp = await fetch(`http://localhost:8080/events/${params.eventId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newEvent),
+  });
+  if (!resp.ok) {
+    console.log(resp);
+    throw json(
+      {
+        message: `Could not create event. ${resp.statusText}`,
+      },
+      { status: resp.status }
+    );
+  }
+  return redirect('/events');
+}
+
 export default function EditEventPage() {
-  const [event, setEvent] = useState(null);
-
-  const params = useParams();
-
-  useEffect(() => {
-    getEvent(params.eventId)
-      .then((resp) => setEvent(resp.event))
-      .catch((err) => {
-        throw err;
-      });
-  }, [params.eventId]);
+  const event = useRouteLoaderData('event-detail');
 
   return (
     <>
       <h1>Edit Event Page</h1>
-      {!event && <h1>Loading...</h1>}
-      {event && <EventItem event={event} showActions='false' />}
-      <EventForm />
+      <>
+        <EventItem event={event} showBody='false' />
+        <EventForm method='patch' event={event} />
+      </>
     </>
   );
 }
