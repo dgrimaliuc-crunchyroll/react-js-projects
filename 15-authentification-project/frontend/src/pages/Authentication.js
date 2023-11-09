@@ -29,6 +29,10 @@ export async function authAction({ request }) {
   if (response.ok) {
     const data = await response.json();
     localStorage.setItem('token', data.token);
+    const expiration = new Date();
+    expiration.setHours(expiration.getHours() + 1);
+    localStorage.setItem('expiration', expiration.toISOString());
+
     return redirect('/');
   } else if ([422, 401].includes(response.status)) {
     return response;

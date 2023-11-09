@@ -15,11 +15,11 @@ export function getToken() {
     return null;
   }
 
-  // const tokenDuration = getTokenDuration();
+  const tokenDuration = getTokenDuration();
 
-  // if (tokenDuration < 0) {
-  //   return 'EXPIRED';
-  // }
+  if (tokenDuration < 0) {
+    return 'EXPIRED';
+  }
 
   return token;
 }
